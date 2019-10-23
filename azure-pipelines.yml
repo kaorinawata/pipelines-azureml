@@ -28,45 +28,17 @@ steps:
     inlineScript: 'az ml run submit-script -c sklearn -e test -d myenv.yml train.py'
 
 - task: AzureCLI@1
-  displayName: 'Register model'
+  displayName: 'Deploy model'
   inputs:
     azureSubscription: 'AzureRmPipeline-conn'
     scriptLocation: inlineScript
-    inlineScript: 'az ml model register -n mymodel -p sklearn_regression_model.pkl -t model.json'
+    inlineScript: 'az ml model deploy -n acicicd -f model.json --ic inferenceConfig.yml --dc deploymentConfig.yml --overwrite'
 
-- task: PythonScript@0
+- task: AzureCLI@1
+  displayName: 'Delete deployed service'
   inputs:
-    scriptSource: 'inline'
-    script: |
-      # Check core SDK version number
-      import azureml.core
-      from azureml.core import Workspace
-      
-      print("SDK version:", azureml.core.VERSION)
-      
-      # Getting your container details
-      container_reg = ws.get_details()["containerRegistry"]
-      reg_name=container_reg.split("/")[-1]
-      container_url = "\"" + image.image_location + "\","
-      subscription_id = ws.subscription_id
-      print('{}'.format(image.image_location))
-      print('{}'.format(reg_name))
-      print('{}'.format(subscription_id))
-      from azure.mgmt.containerregistry import ContainerRegistryManagementClient
-      from azure.mgmt import containerregistry
-      client = ContainerRegistryManagementClient(ws._auth,subscription_id)
-      result= client.registries.list_credentials(resource_group_name, reg_name, custom_headers=None, raw=False)
-      username = result.username
-      password = result.passwords[0].value
-      
-      
-      file = open('iot-workshop-deployment-template.json')
-      contents = file.read()
-      contents = contents.replace('__MODULE_NAME', module_name)
-      contents = contents.replace('__REGISTRY_NAME', reg_name)
-      contents = contents.replace('__REGISTRY_USER_NAME', username)
-      contents = contents.replace('__REGISTRY_PASSWORD', password)
-      contents = contents.replace('__REGISTRY_IMAGE_LOCATION', image.image_location)
-      with open('./deployment.json', 'wt', encoding='utf-8') as output_file:
-          output_file.write(contents)
+    azureSubscription: 'AzureRmPipeline-conn'
+    scriptLocation: inlineScript
+    inlineScript: 'az ml service delete -n acicicd'
+
 
