@@ -21,13 +21,6 @@ steps:
     inlineScript: 'az ml folder attach -w kaoriAzureML -g kaori.nawataRG'
 
 - task: AzureCLI@1
-  displayName: 'Create compute for training'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: inlineScript
-    inlineScript: 'az ml computetarget create amlcompute -n cpu --vm-size STANDARD_D2_V2 --max-nodes 4'
-  
-- task: AzureCLI@1
   displayName: 'Submit script run'
   inputs:
     azureSubscription: 'AzureRmPipeline-conn'
@@ -54,3 +47,4 @@ steps:
     azureSubscription: 'AzureRmPipeline-conn'
     scriptLocation: inlineScript
     inlineScript: 'az ml service delete -n acicicd'
+
