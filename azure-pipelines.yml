@@ -10,8 +10,10 @@ steps:
   displayName: 'Install the CLI'
   inputs:
     azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: inlineScript
-    inlineScript: 'az extension add -n azure-cli-ml'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az extension add -n azure-cli-ml
+      az extension add --name azure-cli-iot-ext
 
 - task: AzureCLI@1
   displayName: 'Attach folder to workspace'
