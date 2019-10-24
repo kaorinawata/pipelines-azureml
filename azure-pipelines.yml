@@ -6,12 +6,6 @@ pool:
 
 steps:
 
-
-- task: PythonScript@0
-  inputs:
-    scriptSource: 'filePath'
-    scriptPath: 'test.py'
-
 - task: AzureCLI@1
   displayName: 'Install the CLI'
   inputs:
