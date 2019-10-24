@@ -6,6 +6,12 @@ pool:
 
 steps:
 
+
+- task: PythonScript@0
+  inputs:
+    scriptSource: 'filePath'
+    scriptPath: 'test.py'
+
 - task: AzureCLI@1
   displayName: 'Install the CLI'
   inputs:
@@ -29,9 +35,5 @@ steps:
     scriptLocation: inlineScript
     inlineScript: 'az ml model register -n mymodel -p sklearn_regression_model.pkl -t model.json'
 
-- task: PythonScript@0
-  inputs:
-    scriptSource: 'filePath'
-    scriptPath: 'test.py'
 
 
