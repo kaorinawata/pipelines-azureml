@@ -6,6 +6,11 @@ pool:
 
 steps:
 
+- script: |
+    python -m pip install --upgrade pip
+    pip install pip install azureml-sdk[notebooks,automl]
+  displayName: 'Install dependencies'
+
 - task: AzureCLI@1
   displayName: 'Install the CLI'
   inputs:
@@ -14,7 +19,7 @@ steps:
     inlineScript: |
       az extension add -n azure-cli-ml
       az extension add --name azure-cli-iot-ext
-      az 
+
 - task: AzureCLI@1
   displayName: 'Attach folder to workspace'
   inputs:
