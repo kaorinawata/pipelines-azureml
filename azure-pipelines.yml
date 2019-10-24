@@ -6,16 +6,7 @@ pool:
 
 steps:
 
-- task: AzureIoTEdge@2
-  inputs:
-    action: 'Deploy to IoT Edge devices'
-    deploymentFilePath: '$(System.DefaultWorkingDirectory)/config/deployment.json'
-    azureSubscription: 'AzureRmPipeline-conn'
-    iothubname: 'AzureIoT-kaori'
-    deploymentid: '$(System.TeamProject)-devops-deployment'
-    priority: '0'
-    deviceOption: 'Single Device'
-    deviceId: 'EdgeVM'
+
 
 - task: AzureCLI@1
   displayName: 'Install the CLI'
