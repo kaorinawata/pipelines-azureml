@@ -6,13 +6,6 @@ pool:
 
 steps:
 
-- task: AzureIoTEdge@2
-  inputs:
-    action: 'Build module images'
-    templateFilePath: 'deployment.template.json'
-    defaultPlatform: 'amd64'
-
-
 - task: AzureCLI@1
   displayName: 'Install the CLI'
   inputs:
@@ -21,7 +14,7 @@ steps:
     inlineScript: |
       az extension add -n azure-cli-ml
       az extension add --name azure-cli-iot-ext
-
+      az 
 - task: AzureCLI@1
   displayName: 'Attach folder to workspace'
   inputs:
