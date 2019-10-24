@@ -48,4 +48,13 @@ steps:
     scriptLocation: inlineScript
     inlineScript: 'az ml service delete -n acicicd'
 
+- task: AzureCLI@1
+  displayName: 'IoTHub Setting'
+  inputs:
+    azureSubscription: 'AzureRmPipeline-conn'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      iot_hub_name="kaoriAzureML"
+      iot_device_id="EdgeVM"
+      az iot edge set-modules --device-id $iot_device_id --hub-name $iot_hub_name --content deployment.json
 
