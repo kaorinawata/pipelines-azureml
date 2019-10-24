@@ -6,6 +6,11 @@ pool:
 
 steps:
 
+- task: AzureIoTEdge@2
+  inputs:
+    action: 'Build module images'
+    templateFilePath: 'deployment.template.json'
+    defaultPlatform: 'amd64'
 
 
 - task: AzureCLI@1
