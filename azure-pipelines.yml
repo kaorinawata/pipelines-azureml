@@ -8,31 +8,8 @@ steps:
 
 - script: |
     pip install --upgrade pip
-    pip install azureml-sdk[notebooks,automl]
+    pip install azureml-sdk
   displayName: 'Install dependencies'
-
-- task: AzureCLI@1
-  displayName: 'Install the CLI'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az extension add -n azure-cli-ml
-      az extension add --name azure-cli-iot-ext
-
-- task: AzureCLI@1
-  displayName: 'Attach folder to workspace'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: inlineScript
-    inlineScript: 'az ml folder attach -w kaoriAzureML -g kaori.nawataRG'
-
-- task: AzureCLI@1
-  displayName: 'Register model'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: inlineScript
-    inlineScript: 'az ml model register -n mymodel -p sklearn_regression_model.pkl -t model.json'
 
 
 
