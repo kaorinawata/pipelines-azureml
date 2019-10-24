@@ -7,8 +7,7 @@ pool:
 steps:
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install pip install azureml-sdk[notebooks,automl]
+    pip install azureml-sdk[notebooks,automl]
   displayName: 'Install dependencies'
 
 - task: AzureCLI@1
