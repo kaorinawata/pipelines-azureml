@@ -36,27 +36,4 @@ steps:
     scriptLocation: inlineScript
     inlineScript: 'az ml model register -n mymodel -p sklearn_regression_model.pkl -t model.json'
 
-- task: AzureCLI@1
-  displayName: 'Deploy model'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: inlineScript
-    inlineScript: 'az ml model deploy -n acicicd -f model.json --ic inferenceConfig.yml --dc deploymentConfig.yml --overwrite'
-
-- task: AzureCLI@1
-  displayName: 'Delete deployed service'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: inlineScript
-    inlineScript: 'az ml service delete -n acicicd'
-
-- task: AzureCLI@1
-  displayName: 'IoTHub Setting'
-  inputs:
-    azureSubscription: 'AzureRmPipeline-conn'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      iot_hub_name="kaoriAzureML"
-      iot_device_id="EdgeVM"
-      az iot edge set-modules --device-id $iot_device_id --hub-name $iot_hub_name --content deployment.json
 
